@@ -1,6 +1,6 @@
 package PNI::Node::Perlop;
 
-our $VERSION = '0.04';
+our $VERSION = '0.04.1';
 
 1
 __END__
