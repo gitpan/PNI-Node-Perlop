@@ -1,59 +1,23 @@
 package PNI::Node::Perlop::Not;
-use strict;
-use base 'PNI::Node';
+use PNI::Node::Mo;
+extends 'PNI::Node';
 
-sub init {
-    my $node = shift;
+sub BUILD {
+    my $self = shift;
+    $self->label('not');
 
-    my $in = $node->add_input('in');
-
-    my $out = $node->add_output('out');
-
-    return 1;
+    $self->in(1);
+    $self->out;
 }
 
 sub task {
-    my $node = shift;
+    my $self = shift;
 
-    my $in = $node->get_input('in');
+    my $in1 = $self->in(1);
 
-    my $out = $node->get_output('out');
+    $in1->is_defined or return;
 
-    my $in_data = $node->get_input('in')->get_data;
-
-    if ( defined $in_data ) {
-        $out->set_data( not $in_data );
-    }
-    else {
-        $out->set_data(undef);
-    }
-
-    return 1;
+    $self->out->data( !$in1->data );
 }
 
-1;
-
-=head1 NAME
-
-PNI::Node::Perlop::Not - PNI node wrapping the Perl C<not> operator
-
-
-
-
-=head1 INPUTS
-
-=over 4
-
-=item in
-
-=back
-
-=head1 OUTPUTS
-
-=over 4
-
-=item out
-
-=back
-
-=cut
+1

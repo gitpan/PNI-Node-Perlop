@@ -1,65 +1,27 @@
 package PNI::Node::Perlop::Range;
-use strict;
-use base 'PNI::Node';
+use PNI::Node::Mo;
+extends 'PNI::Node';
 
-sub init {
-    my $node = shift;
+sub BUILD {
+    my $self = shift;
+    $self->label('..');
 
-    my $in1 = $node->add_input('in1');
-
-    my $in2 = $node->add_input('in2');
-
-    my $out = $node->add_output('out');
-
-    return 1;
+    $self->in(1);
+    $self->in(2);
+    $self->out;
 }
 
 sub task {
-    my $node = shift;
+    my $self = shift;
 
-    my $in1 = $node->get_input('in1');
+    my $in1 = $self->in(1);
+    my $in2 = $self->in(2);
 
-    my $in2 = $node->get_input('in2');
+    $in1->is_string or $in1->is_number or return;
+    $in2->is_string or $in2->is_number or return;
 
-    my $out = $node->get_output('out');
-
-    if ( $in1->is_defined and $in2->is_defined ) {
-        my $in1_data = $in1->get_data;
-        my $in2_data = $in2->get_data;
-        $out->set_data( [ $in1_data .. $in2_data ] );
-    }
-    else {
-        $out->set_data(undef);
-    }
-
-    return 1;
+    my @range = ( $in1->data .. $in2->data );
+    $self->out->data( \@range );
 }
 
-1;
-
-=head1 NAME
-
-PNI::Node::Perlop::Range - PNI node wrapping the Perl C<..> operator
-
-
-
-
-=head1 INPUTS
-
-=over 4
-
-=item in1
-
-=item in2
-
-=back
-
-=head1 OUTPUTS
-
-=over 4
-
-=item out
-
-=back
-
-=cut
+1

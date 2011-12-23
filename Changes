@@ -1,4 +1,6 @@
-Revision history for Perl extension PNI::Node::Perlop.
+Revision history for Perlop node collection.
 
-0.01  2011-07-18
-    - first version
+0.4   2011-12-22
+    - Moooved to Mo, and to github (:
+    - first stable version
+
